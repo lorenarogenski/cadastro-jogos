@@ -30,12 +30,12 @@ const modelo = () => {
         duracao,
         preco,
         estudio,
-        sequencia
+        sequencia,
     };
     } else {
         console.log("Dados inválidos. ")
     }
-}
+};
 const criar = () => {
     const jogo = modelo()
 
@@ -67,7 +67,6 @@ const listar = () => {
 }
 
 const atualizar = () => {
-    listar()
     if(!listar()) {
         return
     }
@@ -104,3 +103,10 @@ const remover = () => {
         console.log("Falha na remoção. ")
     }
 };
+
+module.exports = {
+    criar, 
+    atualizar, 
+    listar,
+    remover
+}
