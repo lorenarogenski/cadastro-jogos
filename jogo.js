@@ -2,13 +2,17 @@ const prompt = require("prompt-sync")();
 
 const jogos = []
 
-const criar = () => {
+
+const modelo = () => {
     const nome = prompt("Nome do jogo: ")
     const anoLancamento = prompt("Ano de lançamento: ")
     const duracao = prompt("Duração média: ")
     const preco = prompt("Preço: ")
     const estudio = prompt("Estúdio de criação: ")
-    const sequencia = prompt("Qual é a sequência?: ")
+    let sequencia = -1
+    if(listar()) {
+        sequencia = prompt("Qual é a sequêcia do jogo? Digite 0 se não houver. ") -1;
+    }
 
     if(
         nome != "" &&
@@ -16,22 +20,34 @@ const criar = () => {
         duracao > 0 &&
         preco == 0 &&
         estudio != "" &&
-        ((sequencia > 0 && sequencia < jogos.length) || jogos.length == 0)
+        ((sequencia >= -1 && sequencia < jogos.length) || jogos.length == 0)
     ) {
-        jogos.push({
-            nome, anoLancamento, duracao, preco, estudio, sequencia
-        })
 
-        console.log("Jogo cadastrado com sucesso! ")
+    return {
+        nome,
+        anoLancamento,
+        duracao,
+        preco,
+        estudio,
+        sequencia
+    };
     } else {
         console.log("Dados inválidos. ")
     }
-
 }
+const criar = () => {
+    const jogo = modelo()
+
+    if(jogo != undefined) {
+    jogos.push(jogo)
+    console.log("Jogo cadastrado com sucesso! ")
+}
+};
 
 const listar = () => {
     if(jogos.length == 0) {
         console.log("Nenhum jogo cadastrado. ")
+        return false
     } else {
         jogos.forEach((jogo, indice) => {
             console.log(`
@@ -44,5 +60,31 @@ const listar = () => {
             Sequência: ${jogo.sequencia}
             `)
         })
+
+        return true
     }
+}
+
+const atualizar = () => {
+    listar()
+    if(!listar()) {
+        return
+    }
+
+    const indice = prompt("Qual o índice que deseja atualizar? ") -1;
+
+    const jogo = modelo()
+
+    if(
+        jogo != undefined &&
+        indice >= 0 &&
+        indice < jogos.length
+) {
+    jogos[indice] = jogo
+
+    console.log("Jogo atualizado com sucesso! ")
+
+} else {
+    console.log("Indíce inválido. ")
+}
 }
